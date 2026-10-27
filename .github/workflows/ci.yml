@@ -1,0 +1,42 @@
+name: Pharmacy Analytics CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Generate deterministic synthetic data
+        run: python scripts/generate_data.py --seed 2026 --sales 1200 --products 60 --out-dir tmp-data
+
+      - name: Validate data and generate KPI reports
+        run: python scripts/run_analysis.py --input-dir tmp-data --out-dir tmp-output
+
+      - name: Execute SQL analysis
+        run: python scripts/run_sql.py --input-dir tmp-data --out-dir tmp-output/sql
+
+      - name: Upload synthetic reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: pharmacy-analytics-demo
+          path: tmp-output/
+          if-no-files-found: error
+          retention-days: 7
