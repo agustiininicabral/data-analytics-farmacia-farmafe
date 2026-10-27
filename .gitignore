@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Generated datasets and reports
+data/raw/*.csv
+outputs/
+.tmp-data/
+.tmp-output/
