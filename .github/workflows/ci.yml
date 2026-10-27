@@ -25,18 +25,18 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Generate deterministic synthetic data
-        run: python scripts/generate_data.py --seed 2026 --sales 1200 --products 60 --out-dir .tmp-data
+        run: python scripts/generate_data.py --seed 2026 --sales 1200 --products 60 --out-dir tmp-data
 
       - name: Validate data and generate KPI reports
-        run: python scripts/run_analysis.py --input-dir .tmp-data --out-dir .tmp-output
+        run: python scripts/run_analysis.py --input-dir tmp-data --out-dir tmp-output
 
       - name: Execute SQL analysis
-        run: python scripts/run_sql.py --input-dir .tmp-data --out-dir .tmp-output/sql
+        run: python scripts/run_sql.py --input-dir tmp-data --out-dir tmp-output/sql
 
       - name: Upload synthetic reports
         uses: actions/upload-artifact@v4
         with:
           name: pharmacy-analytics-demo
-          path: .tmp-output/
+          path: tmp-output/
           if-no-files-found: error
           retention-days: 7
