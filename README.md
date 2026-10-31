@@ -17,7 +17,7 @@ Proyecto de portfolio de Data Analytics con datos sintéticos de farmacia. Inclu
 
 ## Requisitos
 
-- Python 3.12 o posterior.
+- Python 3.12 (versión validada por GitHub Actions).
 - No hay dependencias externas: el pipeline usa la biblioteca estándar de Python y SQLite.
 
 ## Inicio rápido en Windows PowerShell
